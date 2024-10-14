@@ -4,10 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Tabela de Intervalo de Classes</title>
 </head>
 <body>
-    
+    <header>
+        <h1>
+            Compilador de Intervalo de Classes
+        </h1>
+        <section class="info-table">
+            <h3>Tabela</h2>
+            <textarea  class="info-table__textarea" name="data table" id="idDataTable"></textarea>
+        </section>
+        <section class="info-class">
+            <div class="info-class__class-number"> 
+                <h3>Número de classes</h3>
+                <div class="class-number__counter">
+                    <div class="class-number__btn" id="idBtnDec">-</div>
+                    <div class="class-number__display">0</div> 
+                    <div class="class-number__btn" id="idBtnInc">+</div> 
+                </div>
+            </div>
+            <div class="info-class__checkbox">
+                <input class="checkbox"  type="checkbox" name="" id="">
+                <h3>Não Informado </h3>
+            </div>            
+            <button class="info-class__btn--create" type="button">Criar</button>
+        </section>
+    </header>
+    <section class="table">
+        <div class="table__grid">
+            <div class="top-cell">Inter</div>
+            <div class="top-cell">fi</div>
+            <div class="top-cell">Fi</div>
+            <div class="top-cell">fr</div>
+            <div class="top-cell">Fr</div>
+        </div>
+    </section>
 </body>
 <script src="main.js"></script>
 </html>
