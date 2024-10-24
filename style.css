@@ -23,19 +23,26 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding: 0px 20%;
+    margin: 0px 10%;
+}
+h1,h3,h4{
+    transition: 1s;
 }
 
 h1 {
-    font-size: 3vw;
+    font-size: 4vw;
 }
 
 h3 {
-    font-size: 1.7vw;
+    font-size: 2vw;
+}
+h4 {
+    font-size: 1vw;
+    margin: 10px;
 }
 
 .info-table {
-    height: 20%;
+    height: 30%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -54,7 +61,7 @@ h3 {
 }
 
 .info-class {
-    height: 10%;
+    height: 18%;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -105,19 +112,8 @@ h3 {
 
 }
 
-.info-class__checkbox {
-    display: flex;
-    gap: 5px;
-}
-
-.checkbox {
-    height: 20px;
-    width: 20px;
-
-}
-
 .info-class__btn--create {
-    height: 40px;
+    height: 40%;
     width: 25%;
     cursor: pointer;
     background-color: var(--button-primary);
@@ -126,6 +122,7 @@ h3 {
     border-radius: 9px;
     font-weight: bold;
     box-shadow: 2px 2px 5px rgb(137, 137, 137);
+    margin: 30px 0px;
 }
 
 .info-class__btn--create:active {
@@ -150,7 +147,7 @@ h3 {
     grid-template-columns: repeat(5, 1fr);
 }
 
-.cell{
+.cell {
     height: 80px;
 
     display: flex;
@@ -164,7 +161,67 @@ h3 {
     background-color: var(--color-primary);
     border-radius: px;
 }
+
 .top-cell {
     background-color: rgb(97, 158, 255);
+
+}
+
+
+@media (max-width: 600px) {
+   
+    h1 {
+        font-size: 5.5vw;
+    }
+    
+    h3 {
+        font-size: 3vw;
+    }
+    h4 {
+        font-size: 2vw;
+        margin: 10px;
+    }
+    
+
+}
+
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 7vw;
+    }
+    
+    h3 {
+        font-size: 4vw;
+    }
+    h4 {
+        font-size: 3vw;
+        margin: 10px;
+    }
+    .info-class {
+        height: 30%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-evenly;
+        
+    
+    }
+    .class-number__btn {
+        width: 20%;
+    }
+    .info-class__class-number {
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
+    .info-class__btn--create {
+        height: 40%;
+        width: 100%;
+        
+        box-shadow: 2px 2px 5px rgb(137, 137, 137); 
+    }
     
 }
+
+
+
