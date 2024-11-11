@@ -2,13 +2,13 @@
 let numClasses = document.getElementById('idNumClass')
 let conter = document.getElementById('conter')
 
-function clickConter(){
+function clickConter() {
     let num = 0
     conter.addEventListener('click', (event) => {
-        if(event.target.id === "idBtnDec" && num > 0)
+        if (event.target.id === "idBtnDec" && num > 0)
             num--
-        else if(event.target.id === "idBtnInc")
-            num++   
+        else if (event.target.id === "idBtnInc")
+            num++
         numClasses.innerHTML = num
     })
 }
@@ -37,7 +37,7 @@ let N = rawDataMatrix.length
 let sturgesfomule = 1 + 3.3 * Math.log10(N)
 
 //Arredondando o valor do calculo da formula de Sturges 
-let k =  5 //Math.round(sturgesfomule)
+let k = 5 //Math.round(sturgesfomule)
 
 //obtendo o valor minimo da tabela
 const min = Math.min(...dataMatrix)
@@ -55,21 +55,50 @@ let rawAi = At / k
 let Ai = Math.ceil(rawAi)
 
 // criador de intervalos
-function createInterval(){
+function createInterval() {
 
     const interList = []
-    let interValue = min 
+    let interValue = min
 
-    for(i = 0;i < k; i++){
-        interList.push(`${interValue}-${interValue += Ai}`); 
+    for (i = 0; i < k; i++) {
+        interList.push(`${interValue}-${interValue += Ai}`);
     }
-    
-    console.log(Ai)
-    console.log(interList)
+
     return interList
 }
 createInterval()
+/* rawDataMatrix = [
+    (50) [50, 50, 50, 51, 51, 52, 52, 55,
+     56, 58, 58, 59, 59, 59, 61, 63, 64, 
+     64, 65, 65, 66, 66, 66, 67, 67, 67, 
+     68, 71, 72, 72, 72, 73, 75, 79, 82, 
+     83, 84, 84, 85, 85, 87, 88, 90, 91, 
+     92, 94, 94, 95, 97, 97
+     ]
+    
+   intervals = [
+    0: (2) ['50', '60']
+    1: (2) ['60', '70']
+    2: (2) ['70', '80']
+    3: (2) ['80', '90']
+    4: (2) ['90', '100']
+    ]
+*/
 
-
-
+function createFrequency(list, table) {
+    let intervals = list.map(item => item.split("-"));
+    let fi = []
+    for(i=0 ;i < intervals.length; i++){
+        let acc = 0
+        table.forEach((element) => {  
+            if(element > intervals[i][0] && element < intervals[i][1]){
+                acc++
+            }
+        });  
+        fi.push(acc)       
+    }
+    console.log(fi)   
+    return fi
+} 
+createFrequency(createInterval(), dataMatrix)
 
