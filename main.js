@@ -55,7 +55,7 @@ let rawAi = At / k
 let Ai = Math.ceil(rawAi)
 
 // criador de intervalos
-function createInterval() {
+function createInterval(){
 
     const interList = []
     let interValue = min
@@ -66,28 +66,12 @@ function createInterval() {
 
     return interList
 }
-createInterval()
-/* rawDataMatrix = [
-    (50) [50, 50, 50, 51, 51, 52, 52, 55,
-     56, 58, 58, 59, 59, 59, 61, 63, 64, 
-     64, 65, 65, 66, 66, 66, 67, 67, 67, 
-     68, 71, 72, 72, 72, 73, 75, 79, 82, 
-     83, 84, 84, 85, 85, 87, 88, 90, 91, 
-     92, 94, 94, 95, 97, 97
-     ]
-    
-   intervals = [
-    0: (2) ['50', '60']
-    1: (2) ['60', '70']
-    2: (2) ['70', '80']
-    3: (2) ['80', '90']
-    4: (2) ['90', '100']
-    ]
-*/
+
+const interval = createInterval()
 
 function createFrequency(list, table) {
     let intervals = list.map(item => item.split("-"));
-    let fi = []
+    let Frequency = []
     for(i=0 ;i < intervals.length; i++){
         let acc = 0
         table.forEach((element) => {  
@@ -95,10 +79,28 @@ function createFrequency(list, table) {
                 acc++
             }
         });  
-        fi.push(acc)       
+        Frequency.push(acc)       
     }
-    console.log(fi)   
-    return fi
+      
+    return Frequency
 } 
-createFrequency(createInterval(), dataMatrix)
 
+const fi = createFrequency(interval, dataMatrix) 
+
+function createAccumulatedFrequency(frequency){
+    const FiArray = []
+    frequency.reduce(function(acc, current){
+        FiArray.push(acc);
+        acc += current; 
+        return acc 
+    });
+    return FiArray
+}
+
+const Fi = createAccumulatedFrequency(fi)
+
+/*
+console.log(interval+" --intervals--")
+console.log(fi+" --fi--")
+console.log(Fi+" --Fi--")
+*/
