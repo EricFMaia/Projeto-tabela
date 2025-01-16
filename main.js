@@ -15,16 +15,10 @@ function clickConter() {
 clickConter()
 
 let rawDataMatrix = [
-    50, 58, 66, 72, 87,
-    50, 59, 66, 73, 88,
-    50, 59, 66, 75, 90,
-    51, 59, 67, 79, 91,
-    51, 61, 67, 82, 92,
-    52, 63, 67, 83, 94,
-    52, 64, 68, 84, 94,
-    55, 64, 71, 84, 95,
-    56, 65, 72, 85, 97,
-    58, 65, 72, 85, 97
+    67, 67, 67, 68, 68,
+    68, 68, 72, 73, 74,
+    74, 74, 75, 77, 77,
+    78, 78, 80, 85, 85
 ];
 
 //transformando a trabela em formato crescente
@@ -37,7 +31,7 @@ let N = rawDataMatrix.length
 let sturgesfomule = 1 + 3.3 * Math.log10(N)
 
 //Arredondando o valor do calculo da formula de Sturges 
-let k = 5 //Math.round(sturgesfomule)
+let k = Math.round(sturgesfomule)
 
 //obtendo o valor minimo da tabela
 const min = Math.min(...dataMatrix)
@@ -71,36 +65,53 @@ const interval = createInterval()
 
 function createFrequency(list, table) {
     let intervals = list.map(item => item.split("-"));
-    let Frequency = []
-    for(i=0 ;i < intervals.length; i++){
+    let rawfi = [];
+
+    for( i = 0 ; i < intervals.length ; i++){
         let acc = 0
-        table.forEach((element) => {  
-            if(element > intervals[i][0] && element < intervals[i][1]){
+        table.forEach((element) => {
+            if(element >= intervals[i][0] && element < intervals[i][1]){
                 acc++
             }
-        });  
-        Frequency.push(acc)       
+        })
+        rawfi.push(acc)
     }
-      
-    return Frequency
+    return rawfi
 } 
-
 const fi = createFrequency(interval, dataMatrix) 
 
-function createAccumulatedFrequency(frequency){
-    const FiArray = []
+function calculateFrequencies(frequency){
+    let resultArray = []
     frequency.reduce(function(acc, current){
-        FiArray.push(acc);
+        resultArray.push(acc);
         acc += current; 
         return acc 
     });
-    return FiArray
+    return resultArray
 }
 
-const Fi = createAccumulatedFrequency(fi)
+const Fi = calculateFrequencies(fi)
 
-/*
+function createRelativeFrequency(fi){
+    let sum = fi.reduce((acc, current) => {
+        return acc + current;
+    });
+    resultArray = []
+    for (let num of fi) {
+       let value = (num/sum) * 100
+       resultArray.push(Math.round(value));
+       
+    }
+    return resultArray
+}
+const fr = createRelativeFrequency(fi)
+let sum = fr.reduce((acc, current) => {
+    return acc + current;
+});
+console.log(dataMatrix+" --dataMatrix--")
 console.log(interval+" --intervals--")
 console.log(fi+" --fi--")
 console.log(Fi+" --Fi--")
-*/
+console.log(fr+" --Fr--")
+console.log(sum+" --sum--")
+
