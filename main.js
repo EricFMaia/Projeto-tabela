@@ -83,10 +83,10 @@ const fi = createFrequency(interval, dataMatrix)
 function calculateFrequencies(frequency){
     let resultArray = []
     frequency.reduce(function(acc, current){
-        resultArray.push(acc);
         acc += current; 
+        resultArray.push(acc);
         return acc 
-    });
+    }, 0);
     return resultArray
 }
 
@@ -108,10 +108,13 @@ const fr = createRelativeFrequency(fi)
 let sum = fr.reduce((acc, current) => {
     return acc + current;
 });
+
+const Fr = calculateFrequencies(fr)
 console.log(dataMatrix+" --dataMatrix--")
 console.log(interval+" --intervals--")
 console.log(fi+" --fi--")
 console.log(Fi+" --Fi--")
-console.log(fr+" --Fr--")
+console.log(fr+" --fr--")
+console.log(Fr+" --Fr--")
 console.log(sum+" --sum--")
 
