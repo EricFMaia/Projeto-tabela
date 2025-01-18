@@ -1,6 +1,7 @@
 
 let numClasses = document.getElementById('idNumClass')
 let conter = document.getElementById('conter')
+let tableGrid = document.getElementById('table__grid')
 
 function clickConter() {
     let num = 0
@@ -110,6 +111,7 @@ let sum = fr.reduce((acc, current) => {
 });
 
 const Fr = calculateFrequencies(fr)
+
 console.log(dataMatrix+" --dataMatrix--")
 console.log(interval+" --intervals--")
 console.log(fi+" --fi--")
