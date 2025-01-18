@@ -1,7 +1,8 @@
 
 let numClasses = document.getElementById('idNumClass')
 let conter = document.getElementById('conter')
-let tableGrid = document.getElementById('table__grid')
+let btnButton = document.getElementById('btnButton')
+let tableGrid = document.getElementById('tableGrid')
 
 function clickConter() {
     let num = 0
@@ -13,7 +14,14 @@ function clickConter() {
         numClasses.innerHTML = num
     })
 }
+function clickCreateButton() {
+    btnButton.addEventListener('click', () => {
+        createtable(k,tableGrid,contentTable,sum)
+    })
+}
+clickCreateButton()
 clickConter()
+
 
 let rawDataMatrix = [
     67, 67, 67, 68, 68,
@@ -111,12 +119,33 @@ let sum = fr.reduce((acc, current) => {
 });
 
 const Fr = calculateFrequencies(fr)
+let contentTable = [interval,fi,Fi,fr,Fr]
 
-console.log(dataMatrix+" --dataMatrix--")
+function createtable(k,tableGrid,contentTable,sum){
+    for(c=0;c<k+1;c++){
+        for(i=0;i<5;i++){
+            const newCell = document.createElement('div');
+            
+            newCell.className = 'cell';
+            newCell.style.backgroundColor = i % 2 === 0 ? 'rgb(228, 243, 255)' : 'rgb(255, 255, 255);';
+            
+            if(c==5 && i==3)
+                newCell.textContent = `${sum}%`;
+            else if(i==3)
+                newCell.textContent = `${contentTable[i][c]}%`;
+            else
+                newCell.textContent = contentTable[i][c];
+            
+            tableGrid.appendChild(newCell); 
+        }
+    }
+}
+
 console.log(interval+" --intervals--")
 console.log(fi+" --fi--")
 console.log(Fi+" --Fi--")
 console.log(fr+" --fr--")
 console.log(Fr+" --Fr--")
 console.log(sum+" --sum--")
+console.log(contentTable)
 
