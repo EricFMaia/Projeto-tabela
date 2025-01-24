@@ -12,15 +12,23 @@ function clickConter() {
         else if (event.target.id === "idBtnInc")
             num++
         numClasses.innerHTML = num
-    })
+    });
 }
-function clickCreateButton() {
-    btnButton.addEventListener('click', () => {
-        createtable(k,tableGrid,contentTable,sum)
-    })
-}
-clickCreateButton()
 clickConter()
+
+
+function clickCreateButton() {
+    let isClickable = true;
+    btnButton.addEventListener('click', () => {
+        if (isClickable)
+        createtable(k,tableGrid,contentTable,sum)
+        isClickable = false;
+
+        
+    });
+}
+
+clickCreateButton()
 
 
 let rawDataMatrix = [
@@ -129,14 +137,28 @@ function createtable(k,tableGrid,contentTable,sum){
             newCell.className = 'cell';
             newCell.style.backgroundColor = i % 2 === 0 ? 'rgb(228, 243, 255)' : 'rgb(255, 255, 255);';
             
-            if(c==5 && i==3)
-                newCell.textContent = `${sum}%`;
-            else if(i==3)
-                newCell.textContent = `${contentTable[i][c]}%`;
-            else
-                newCell.textContent = contentTable[i][c];
             
-            tableGrid.appendChild(newCell); 
+            switch (true) {
+                case (c === 5 && i === 3):
+                    newCell.textContent = `${sum}%`;
+                    newCell.style.backgroundColor = 'rgb(174, 205, 255)';
+                    break;
+                    
+                    case (i === 3):
+                        newCell.textContent = `${contentTable[i][c]}%`;
+                        break;
+                        
+                    case (contentTable[i][c] == undefined):
+                        newCell.textContent = '...';
+                        newCell.style.backgroundColor = 'rgb(174, 205, 255)';
+                        break;
+                    
+                    default:
+                        newCell.textContent = contentTable[i][c];
+                        break;
+            }
+            
+            tableGrid.appendChild(newCell);
         }
     }
 }
