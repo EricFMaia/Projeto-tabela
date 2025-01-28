@@ -13,7 +13,7 @@ function initializeTable() {
 
     let rawDataMatrix = table.split(/[\s,]+/).map(Number);
 
-    if (asNanInTable(rawDataMatrix) &&   rawDataMatrix == 0) {
+    if (asNanInTable(rawDataMatrix) || rawDataMatrix == 0) {
         window.alert('Digite uma tabela válida para a execução do programa.')
         console.log(rawDataMatrix)
         isClickable = true;
