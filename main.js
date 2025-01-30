@@ -5,8 +5,6 @@ let btnButton = document.getElementById('btnButton')
 let tableGrid = document.getElementById('tableGrid')
 
 let rawNumclass = 0
-let isClickable = true;
-
 
 function initializeTable() {
     let table = document.getElementById('idDataTable').value
@@ -15,17 +13,11 @@ function initializeTable() {
 
     if (asNanInTable(rawDataMatrix) || rawDataMatrix == 0) {
         window.alert('Digite uma tabela válida para a execução do programa.')
-        console.log(rawDataMatrix)
-        isClickable = true;
         
     } else {
-        console.log(rawDataMatrix)
-        console.log(table)
-        console.log(rawDataMatrix.value)
-        console.log(table.value)
-        
-        isClickable = false;
 
+        removeTable(tableGrid)
+        
         //transformando a trabela em formato crescente
         const dataMatrix = rawDataMatrix.sort()
 
@@ -58,7 +50,11 @@ function initializeTable() {
 
         const fr = createRelativeFrequency(fi)
 
-        let sum = fr.reduce((acc, current) => {
+        let sumFi = fr.reduce((acc, current) => {
+            return acc + current;
+        });
+
+        let sumfi = fi.reduce((acc, current) => {
             return acc + current;
         });
 
@@ -69,18 +65,19 @@ function initializeTable() {
         const Fr = calculateFrequencies(fr)
         let contentTable = [interval, fi, Fi, fr, Fr]
 
-        createtable(k, tableGrid, contentTable, sum)
+        createtable(k, tableGrid, contentTable, sumFi, sumfi)
 
 
-        /*console.log(k+" --CLASSES--")
+        console.log(k+" --CLASSES--")
         console.log(interval+" --intervals--")
         console.log(fi+" --fi--")
         console.log(Fi+" --Fi--")
         console.log(fr+" --fr--")
         console.log(Fr+" --Fr--")
-        console.log(sum+" --sum--")
+        console.log(sumFi+" --sumFi--")
+        console.log(sumfi+" --sumfi--")
         console.log(contentTable)
-        console.log(rawDataMatrix)*/
+        console.log(rawDataMatrix)
 
     }
 
@@ -99,8 +96,8 @@ conter.addEventListener('click', (event) => {
 
 function clickCreateButton() {
     btnButton.addEventListener('click', () => {
-        if (isClickable)
-            initializeTable()
+        
+        initializeTable()
         
     });
 }
@@ -191,29 +188,35 @@ function createRelativeFrequency(fi) {
 }
 
 
-function createtable(k, tableGrid, contentTable, sum) {
+function createtable(k, tableGrid, contentTable, sumFi, sumfi) {
     for (c = 0; c < k + 1; c++) {
         for (i = 0; i < 5; i++) {
             const newCell = document.createElement('div');
 
             newCell.className = 'cell';
+            newCell.id = 'cell';
             newCell.style.backgroundColor = i % 2 === 0 ? 'rgb(228, 243, 255)' : 'rgb(255, 255, 255);';
 
 
             switch (true) {
                 case (c === k && i === 3):
-                    newCell.textContent = `${sum}%`;
-                    newCell.style.backgroundColor = 'rgb(174, 205, 255)';
+                    newCell.textContent = `${sumFi}%`;
+                    newCell.style.backgroundColor = 'rgb(97, 158, 255)';
+                    break;
+                case (c === k && i === 1):
+                    newCell.textContent = sumfi;
+                    newCell.style.backgroundColor = 'rgb(97, 158, 255)';
+                    break;
+                    
+                case (contentTable[i][c] == undefined):
+                    newCell.textContent = '...';
+                    newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
 
-                case (i === 3):
+                case (i === 3 || i === 4):
                     newCell.textContent = `${contentTable[i][c]}%`;
                     break;
 
-                case (contentTable[i][c] == undefined):
-                    newCell.textContent = '...';
-                    newCell.style.backgroundColor = 'rgb(174, 205, 255)';
-                    break;
 
                 default:
                     newCell.textContent = contentTable[i][c];
@@ -224,5 +227,8 @@ function createtable(k, tableGrid, contentTable, sum) {
         }
     }
 }
-
+function removeTable(tableGrid) {
+    const cells = tableGrid.querySelectorAll("[id='cell']");
+    cells.forEach(cell => cell.remove());
+}
 
