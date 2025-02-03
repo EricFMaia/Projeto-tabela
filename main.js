@@ -50,7 +50,7 @@ function initializeTable() {
 
         const fr = createRelativeFrequency(fi)
 
-        let sumFi = fr.reduce((acc, current) => {
+        let sumfr = fr.reduce((acc, current) => {
             return acc + current;
         });
 
@@ -65,7 +65,7 @@ function initializeTable() {
         const Fr = calculateFrequencies(fr)
         let contentTable = [interval, fi, Fi, fr, Fr]
 
-        createtable(k, tableGrid, contentTable, sumFi, sumfi)
+        createtable(k, tableGrid, contentTable, sumfr, sumfi)
 
 
         console.log(k+" --CLASSES--")
@@ -74,7 +74,7 @@ function initializeTable() {
         console.log(Fi+" --Fi--")
         console.log(fr+" --fr--")
         console.log(Fr+" --Fr--")
-        console.log(sumFi+" --sumFi--")
+        console.log(sumfr+" --sumfr--")
         console.log(sumfi+" --sumfi--")
         console.log(contentTable)
         console.log(rawDataMatrix)
@@ -115,7 +115,7 @@ function asNanInTable(table) {
 
 function getClass(rawNumclass, sturgesfomule) {
 
-    if (rawNumclass == 0) {
+    if (rawNumclass === 0) {
 
         num = Math.round(sturgesfomule)
     } else {
@@ -180,15 +180,15 @@ function createRelativeFrequency(fi) {
     });
     resultArray = []
     for (let num of fi) {
-        let value = (num / sum) * 100
-        resultArray.push(Math.round(value));
+        let value = num / sum * 100
+        resultArray.push(value);
 
     }
     return resultArray
 }
 
 
-function createtable(k, tableGrid, contentTable, sumFi, sumfi) {
+function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
     for (c = 0; c < k + 1; c++) {
         for (i = 0; i < 5; i++) {
             const newCell = document.createElement('div');
@@ -200,11 +200,11 @@ function createtable(k, tableGrid, contentTable, sumFi, sumfi) {
 
             switch (true) {
                 case (c === k && i === 3):
-                    newCell.textContent = `${sumFi}%`;
+                    newCell.textContent = `${Math.round(sumfr)}%`;
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
                 case (c === k && i === 1):
-                    newCell.textContent = sumfi;
+                    newCell.textContent = Math.round(sumfi);
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
                     
@@ -214,7 +214,7 @@ function createtable(k, tableGrid, contentTable, sumFi, sumfi) {
                     break;
 
                 case (i === 3 || i === 4):
-                    newCell.textContent = `${contentTable[i][c]}%`;
+                    newCell.textContent = `${ Math.round(contentTable[i][c])}%`;
                     break;
 
 
