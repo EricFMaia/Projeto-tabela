@@ -4,20 +4,24 @@ let conter = document.getElementById('conter')
 let btnButton = document.getElementById('btnButton')
 let tableGrid = document.getElementById('tableGrid')
 
+// Número de classes ajustável pelo usuário
 let rawNumclass = 0
 
+// Função principal para inicializar a tabela de frequência
 function initializeTable() {
     let table = document.getElementById('idDataTable').value
 
+    // Convertendo os valores da tabela em uma lista numérica
     let rawDataMatrix = table.split(/[\s,]+/).map(Number);
 
     if (asNanInTable(rawDataMatrix) || rawDataMatrix == 0) {
         window.alert('Digite uma tabela válida para a execução do programa.')
-        
+
     } else {
 
+        // Removendo qualquer tabela existente antes de criar uma nova
         removeTable(tableGrid)
-        
+
         //transformando a trabela em formato crescente
         const dataMatrix = rawDataMatrix.sort()
 
@@ -27,13 +31,12 @@ function initializeTable() {
         // formula de Sturges para obter o K(classe)
         let sturgesfomule = 1 + 3.3 * Math.log10(N)
 
-        //obtendo o valor minimo da tabela
+        // Obtendo os valores mínimo e máximo da amostra
         const min = Math.min(...dataMatrix)
-
-        //obtendo o valor maximo da tabela
         const max = Math.max(...dataMatrix)
 
-        let k = getClass(rawNumclass, sturgesfomule)
+        // Determinando o número de classes baseado na escolha do usuário ou fórmula de Sturges
+        let k = rawNumclass > 0 ? rawNumclass : sturgesfomule;
 
         // obtendo a amplitude total subistraindo o valor maximo pelo menor valor
         let At = max - min
@@ -44,65 +47,51 @@ function initializeTable() {
         // arredondando o valor para cima não importa o valor quebrado
         let Ai = Math.ceil(rawAi)
 
+        // Criando os intervalos de classe
         const interval = createInterval(min, k, Ai)
 
+        // Calculando frequências absolutas (fi)
         const fi = createFrequency(interval, dataMatrix)
 
+        // Calculando frequências relativas (fr)
         const fr = createRelativeFrequency(fi)
 
+        // Somando as frequências (fr) e (fi)
         let sumfr = fr.reduce((acc, current) => {
             return acc + current;
         });
-
         let sumfi = fi.reduce((acc, current) => {
             return acc + current;
         });
 
-
-
+        // Calculando frequências acumuladas (Fi e Fr)
         const Fi = calculateFrequencies(fi)
-
         const Fr = calculateFrequencies(fr)
+
+        // Criando a tabela de saída
         let contentTable = [interval, fi, Fi, fr, Fr]
 
+        // função que imprime tabela no html
         createtable(k, tableGrid, contentTable, sumfr, sumfi)
-
-
-        console.log(k+" --CLASSES--")
-        console.log(interval+" --intervals--")
-        console.log(fi+" --fi--")
-        console.log(Fi+" --Fi--")
-        console.log(fr+" --fr--")
-        console.log(Fr+" --Fr--")
-        console.log(sumfr+" --sumfr--")
-        console.log(sumfi+" --sumfi--")
-        console.log(contentTable)
-        console.log(rawDataMatrix)
-
     }
-
 
 }
 
-
+// Listener para os botões de incremento/decremento das classes
 conter.addEventListener('click', (event) => {
     if (event.target.id === "idBtnDec" && rawNumclass > 0)
         rawNumclass--
-    else if (event.target.id === "idBtnInc")
+    if (event.target.id === "idBtnInc")
         rawNumclass++
+
     numClasses.innerHTML = rawNumclass
 
 });
 
-function clickCreateButton() {
-    btnButton.addEventListener('click', () => {
-        
-        initializeTable()
-        
-    });
-}
-clickCreateButton()
+// Adicionando evento ao botão de criação da tabela
+btnButton.addEventListener('click', initializeTable);
 
+// verifica se tem um valor nulo no array da tabela que o usuario digita
 function asNanInTable(table) {
     let nanItem = false
     table.forEach((item) => {
@@ -113,18 +102,7 @@ function asNanInTable(table) {
     return nanItem
 }
 
-function getClass(rawNumclass, sturgesfomule) {
-
-    if (rawNumclass === 0) {
-
-        num = Math.round(sturgesfomule)
-    } else {
-        num = rawNumclass
-
-    }
-    return num
-}
-
+// Função para criar intervalos de classe
 function createInterval(min, k, Ai) {
 
     const interList = []
@@ -137,8 +115,7 @@ function createInterval(min, k, Ai) {
     return interList
 }
 
-
-
+// Função para calcular a frequência absoluta (fi)
 function createFrequency(list, table) {
     let intervals = list.map(item => item.split("-").map(Number));
     let rawfi = [];
@@ -164,6 +141,7 @@ function createFrequency(list, table) {
     return rawfi;
 }
 
+// Função para calcular frequências acumuladas
 function calculateFrequencies(frequency) {
     let resultArray = []
     frequency.reduce(function (acc, current) {
@@ -174,6 +152,7 @@ function calculateFrequencies(frequency) {
     return resultArray
 }
 
+// Função para calcular frequência relativa (%)
 function createRelativeFrequency(fi) {
     let sum = fi.reduce((acc, current) => {
         return acc + current;
@@ -187,7 +166,7 @@ function createRelativeFrequency(fi) {
     return resultArray
 }
 
-
+// Função para criar a tabela no HTML
 function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
     for (c = 0; c < k + 1; c++) {
         for (i = 0; i < 5; i++) {
@@ -195,6 +174,8 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
 
             newCell.className = 'cell';
             newCell.id = 'cell';
+
+            // Alternância de cor entre as células
             newCell.style.backgroundColor = i % 2 === 0 ? 'rgb(228, 243, 255)' : 'rgb(255, 255, 255);';
 
 
@@ -207,14 +188,14 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
                     newCell.textContent = Math.round(sumfi);
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
-                    
+
                 case (contentTable[i][c] == undefined):
                     newCell.textContent = '...';
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
 
                 case (i === 3 || i === 4):
-                    newCell.textContent = `${ Math.round(contentTable[i][c])}%`;
+                    newCell.textContent = `${Math.round(contentTable[i][c])}%`;
                     break;
 
 
@@ -227,6 +208,7 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
         }
     }
 }
+// Função para remover células da tabela antes de atualizar
 function removeTable(tableGrid) {
     const cells = tableGrid.querySelectorAll("[id='cell']");
     cells.forEach(cell => cell.remove());
