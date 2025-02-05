@@ -14,30 +14,33 @@ function initializeTable() {
     // Convertendo os valores da tabela em uma lista numérica
     let rawDataMatrix = table.split(/[\s,]+/).map(Number);
 
+    // removendo o zero que aparece na tabela quando o usuario coloca um espaço antes e depois na tabela
+    removeSideZeros(rawDataMatrix)
+    
     if (asNanInTable(rawDataMatrix) || rawDataMatrix == 0) {
-        window.alert('Digite uma tabela válida para a execução do programa.')
-
+        window.alert('Digite uma tabela válida para a execução do programa. Ela deve conter apenas números, exceto o zero (0).')
+        
     } else {
-
+        
         // Removendo qualquer tabela existente antes de criar uma nova
         removeTable(tableGrid)
-
+        
         //transformando a trabela em formato crescente
         const dataMatrix = rawDataMatrix.sort()
-
+        
         // tamanho da tabela
         let N = rawDataMatrix.length
-
+        
         // formula de Sturges para obter o K(classe)
-        let sturgesfomule = 1 + 3.3 * Math.log10(N)
-
+        let sturgesfomule = Math.round( 1 + 3.3 * Math.log10(N))
+        
         // Obtendo os valores mínimo e máximo da amostra
         const min = Math.min(...dataMatrix)
         const max = Math.max(...dataMatrix)
-
+        
         // Determinando o número de classes baseado na escolha do usuário ou fórmula de Sturges
         let k = rawNumclass > 0 ? rawNumclass : sturgesfomule;
-
+        
         // obtendo a amplitude total subistraindo o valor maximo pelo menor valor
         let At = max - min
 
@@ -74,7 +77,6 @@ function initializeTable() {
         // função que imprime tabela no html
         createtable(k, tableGrid, contentTable, sumfr, sumfi)
     }
-
 }
 
 // Listener para os botões de incremento/decremento das classes
@@ -95,7 +97,7 @@ btnButton.addEventListener('click', initializeTable);
 function asNanInTable(table) {
     let nanItem = false
     table.forEach((item) => {
-        if (isNaN(item)) {
+        if (isNaN(item) || item === 0) {
             nanItem = true;
         }
     })
@@ -161,7 +163,6 @@ function createRelativeFrequency(fi) {
     for (let num of fi) {
         let value = num / sum * 100
         resultArray.push(value);
-
     }
     return resultArray
 }
@@ -175,15 +176,14 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
             newCell.className = 'cell';
             newCell.id = 'cell';
 
-            // Alternância de cor entre as células
             newCell.style.backgroundColor = i % 2 === 0 ? 'rgb(228, 243, 255)' : 'rgb(255, 255, 255);';
-
 
             switch (true) {
                 case (c === k && i === 3):
                     newCell.textContent = `${Math.round(sumfr)}%`;
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
                     break;
+
                 case (c === k && i === 1):
                     newCell.textContent = Math.round(sumfi);
                     newCell.style.backgroundColor = 'rgb(97, 158, 255)';
@@ -198,7 +198,6 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
                     newCell.textContent = `${Math.round(contentTable[i][c])}%`;
                     break;
 
-
                 default:
                     newCell.textContent = contentTable[i][c];
                     break;
@@ -207,6 +206,11 @@ function createtable(k, tableGrid, contentTable, sumfr, sumfi) {
             tableGrid.appendChild(newCell);
         }
     }
+}
+
+function removeSideZeros(table){
+    if(table[0] === 0) table.shift()
+    if(table[table.length - 1] === 0) table.pop()
 }
 // Função para remover células da tabela antes de atualizar
 function removeTable(tableGrid) {
