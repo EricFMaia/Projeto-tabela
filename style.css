@@ -130,6 +130,30 @@ h4 {
     box-shadow: 2px 2px 5px rgb(184, 184, 184);
 
 }
+.info-class__arrow{
+    display: none;
+
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+
+    font-size: 50px;
+    font-weight: bolder;
+    color: var(--button-primary);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.423);
+
+    rotate: 90deg;
+    animation: upDown 1s ease-in-out infinite;
+    opacity: 0.4;
+}
+@keyframes upDown {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+}
 
 .table {
     height: fit-content;

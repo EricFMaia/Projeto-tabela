@@ -4,6 +4,7 @@ let conter = document.getElementById('conter')
 let btnButton = document.getElementById('btnButton')
 let tableGrid = document.getElementById('tableGrid')
 
+
 // Número de classes ajustável pelo usuário
 let rawNumclass = 0
 
@@ -76,6 +77,8 @@ function initializeTable() {
 
         // função que imprime tabela no html
         createtable(k, tableGrid, contentTable, sumfr, sumfi)
+        
+        arrowToggle()
     }
 }
 
@@ -217,4 +220,7 @@ function removeTable(tableGrid) {
     const cells = tableGrid.querySelectorAll("[id='cell']");
     cells.forEach(cell => cell.remove());
 }
+arrowToggle = () =>{
+    let arrow = document.getElementById('arrow').style.display = 'block'
 
+}
